@@ -4,7 +4,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.7.0
+    controller-gen.kubebuilder.io/version: v0.2.4
   creationTimestamp: null
   name: dtfs.infra.tce.io
 spec:
@@ -14,16 +14,16 @@ spec:
     listKind: DTFList
     plural: dtfs
     singular: dtf
-  scope: Cluster
+  scope: Namespaced
   versions:
   - additionalPrinterColumns:
-    - description: Whether dtf cluster is readOnly
-      jsonPath: .spec.options.readOnly
-      name: ReadyOnly
+    - description: DTF cluster region
+      jsonPath: .spec.region
+      name: Region
       type: string
-    - description: DTF cluster storageMode
-      jsonPath: .spec.options.storageMode
-      name: StorageMode
+    - description: DTF cluster resource owner
+      jsonPath: .spec.creator.uin
+      name: Uin
       type: string
     - description: Status of the dtf cluster
       jsonPath: .status.status
@@ -871,42 +871,108 @@ spec:
                         type: array
                     type: object
                 type: object
-              componentVersions:
-                items:
-                  description: ComponentVersion defines the sub component version
-                  properties:
-                    image:
-                      type: string
-                    name:
-                      type: string
-                  required:
-                  - image
-                  - name
-                  type: object
-                type: array
+              creator:
+                description: Creator is creator of the dtf cluster.
+                properties:
+                  subAccountUin:
+                    type: string
+                  uin:
+                    type: string
+                type: object
               description:
+                description: Description holds description of this cluster.
                 type: string
+              manager:
+                description: Manager describes dtf manager component. Version, resources,
+                  replicas are defined here.
+                properties:
+                  dbInitImage:
+                    description: DBInitImage is image for database init.
+                    type: string
+                  image:
+                    description: Image is image to use for the component, it reflects
+                      version of the component.
+                    type: string
+                  nettyPort:
+                    description: NettyPort is netty port.
+                    type: integer
+                  port:
+                    description: Port is port of the component.
+                    type: integer
+                  replicas:
+                    description: Replicas defines replicas of the component.
+                    type: integer
+                  resources:
+                    description: Resources gives resource requirements for the component.
+                    properties:
+                      limits:
+                        additionalProperties:
+                          type: string
+                        description: 'Limits describes the maximum amount of compute
+                          resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
+                        type: object
+                      requests:
+                        additionalProperties:
+                          type: string
+                        description: 'Requests describes the minimum amount of compute
+                          resources required. If Requests is omitted for a container,
+                          it defaults to Limits if that is explicitly specified, otherwise
+                          to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
+                        type: object
+                    type: object
+                type: object
               nodeSelector:
                 additionalProperties:
                   type: string
                 description: 'NodeSelector is a selector which must be true for the
                   pod to fit on a node. Selector which must match a node''s labels
-                  for the pod to be scheduled on that node. More info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
-                  It''s deprecated now, please use Scheduling field instead.'
+                  for the pod to be scheduled on that node. More info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/'
                 type: object
-              options:
-                description: ClusterOptions defines the behavior of dtf
+              readOnly:
+                description: ReadOnly indicates whether this dtf cluster is in readonly
+                  mode.
+                type: boolean
+              region:
+                description: Region of this dtf cluster.
+                type: string
+              server:
+                description: Server describes dtf server component. Version, resources,
+                  replicas are defined here.
                 properties:
-                  readOnly:
-                    description: ReadOnly mode block all transaction creation requests
-                    type: boolean
-                  storageMode:
-                    default: mysql
-                    description: StorageMode describe the dtf backend storage
+                  dbInitImage:
+                    description: DBInitImage is image for database init.
                     type: string
-                required:
-                - readOnly
-                - storageMode
+                  image:
+                    description: Image is image to use for the component, it reflects
+                      version of the component.
+                    type: string
+                  nettyPort:
+                    description: NettyPort is netty port.
+                    type: integer
+                  port:
+                    description: Port is port of the component.
+                    type: integer
+                  replicas:
+                    description: Replicas defines replicas of the component.
+                    type: integer
+                  resources:
+                    description: Resources gives resource requirements for the component.
+                    properties:
+                      limits:
+                        additionalProperties:
+                          type: string
+                        description: 'Limits describes the maximum amount of compute
+                          resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
+                        type: object
+                      requests:
+                        additionalProperties:
+                          type: string
+                        description: 'Requests describes the minimum amount of compute
+                          resources required. If Requests is omitted for a container,
+                          it defaults to Limits if that is explicitly specified, otherwise
+                          to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
+                        type: object
+                    type: object
                 type: object
               tolerations:
                 description: Tolerations specifies the pod's tolerations.
@@ -954,17 +1020,15 @@ spec:
               cluster
             properties:
               componentStatuses:
+                description: ComponentStatuses describes status of each component.
                 items:
                   description: ComponentStatus defines the sub component running status
                   properties:
-                    image:
-                      type: string
                     name:
                       type: string
                     status:
                       type: string
                   required:
-                  - image
                   - name
                   - status
                   type: object
@@ -996,11 +1060,8 @@ spec:
                   - lastTransitionTime
                   type: object
                 type: array
-              managerEndpoint:
-                description: ManagerEndpoint is the dtf-manager restful api endpoint
-                type: string
               status:
-                description: Status reflect the overall status of the dtf instance.
+                description: Status reflects the overall status of the dtf instance.
                 type: string
             type: object
         required:
