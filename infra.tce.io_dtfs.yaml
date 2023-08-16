@@ -915,6 +915,11 @@ spec:
                     description: Image is image to use for the component, it reflects
                       version of the component.
                     type: string
+                  logLevel:
+                    description: LogLevel defines log level, for example, ["com.tencent.cloud.dtf=DEBUG"]
+                    items:
+                      type: string
+                    type: array
                   nettyPort:
                     description: NettyPort is netty port.
                     type: integer
@@ -968,6 +973,11 @@ spec:
                     description: Image is image to use for the component, it reflects
                       version of the component.
                     type: string
+                  logLevel:
+                    description: LogLevel defines log level, for example, ["com.tencent.cloud.dtf=DEBUG"]
+                    items:
+                      type: string
+                    type: array
                   nettyPort:
                     description: NettyPort is netty port.
                     type: integer
@@ -996,6 +1006,9 @@ spec:
                         type: object
                     type: object
                 type: object
+              solution:
+                description: Solution name, tce or tcs.
+                type: string
               tolerations:
                 description: Tolerations specifies the pod's tolerations.
                 items:
@@ -1085,9 +1098,31 @@ spec:
                   - lastTransitionTime
                   type: object
                 type: array
+              managerClusterIP:
+                description: Cluster IP of dtf manager.
+                type: string
+              managerIP:
+                description: VIP of dtf manager.
+                type: string
+              serverClusterIP:
+                description: Cluster IP of dtf server.
+                type: string
+              serverIP:
+                description: VIP of dtf server.
+                type: string
               status:
                 description: Status reflects the overall status of the dtf instance.
                 type: string
+              vpcConfig:
+                description: VPCConfig holds vpc ip and port.
+                properties:
+                  ip:
+                    description: IP is vpc ip for the vpc.
+                    type: string
+                  port:
+                    description: Port is the vpc port.
+                    type: integer
+                type: object
             type: object
         required:
         - metadata
