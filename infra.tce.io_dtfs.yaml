@@ -1006,6 +1006,9 @@ spec:
                         type: object
                     type: object
                 type: object
+              solution:
+                description: Solution name, tce or tcs.
+                type: string
               tolerations:
                 description: Tolerations specifies the pod's tolerations.
                 items:
@@ -1122,6 +1125,16 @@ spec:
               status:
                 description: Status reflects the overall status of the dtf instance.
                 type: string
+              vpcConfig:
+                description: VPCConfig holds vpc ip and port.
+                properties:
+                  ip:
+                    description: IP is vpc ip for the vpc.
+                    type: string
+                  port:
+                    description: Port is the vpc port.
+                    type: integer
+                type: object
             type: object
         required:
         - metadata
