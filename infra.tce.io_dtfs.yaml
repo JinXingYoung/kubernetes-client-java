@@ -1114,6 +1114,18 @@ spec:
               serverIP:
                 description: VIP of dtf server.
                 type: string
+              managerClusterIPv6:
+                description: Cluster IPv6 of dtf manager.
+                type: string
+              managerIPv6:
+                description: VIPv6 of dtf manager.
+                type: string
+              serverClusterIPv6:
+                description: Cluster IPv6 of dtf server.
+                type: string
+              serverIPv6:
+                description: VIPv6 of dtf server.
+                type: string
               status:
                 description: Status reflects the overall status of the dtf instance.
                 type: string
