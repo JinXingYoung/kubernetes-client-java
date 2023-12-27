@@ -1053,6 +1053,18 @@ spec:
                       type: string
                   type: object
                 type: array
+              runtimeUser:
+                description: Server describes dtf server component. Version, resources,
+                  replicas are defined here.
+                properties:
+                  uid:
+                    description: DBInitImage is image for database init.
+                    type: string
+                  gid:
+                    description: Image is image to use for the component, it reflects
+                      version of the component.
+                    type: string
+                type: object
             type: object
           status:
             description: Status represents information about the status of a dtf cluster
