@@ -1059,11 +1059,11 @@ spec:
                 properties:
                   uid:
                     description: DBInitImage is image for database init.
-                    type: string
+                    type: integer
                   gid:
                     description: Image is image to use for the component, it reflects
                       version of the component.
-                    type: string
+                    type: integer
                 type: object
             type: object
           status:
