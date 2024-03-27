@@ -1117,26 +1117,36 @@ spec:
               managerClusterIP:
                 description: Cluster IP of dtf manager.
                 type: string
-              managerIP:
-                description: VIP of dtf manager.
-                type: string
+              addresses:
+                description: VIP of dtf.
+                type: array
+                items:
+                  description: Zone and vips of dtf service.
+                  properties:
+                    managerIP:
+                      description: VIP of dtf manager.
+                      type: string
+                    serverIP:
+                      description: VIP of dtf server.
+                      type: string
+                    managerIPv6:
+                      description: VIPv6 of dtf manager.
+                      type: string
+                    serverIPv6:
+                      description: VIPv6 of dtf server.
+                      type: string
+                    zone:
+                      description: zone of dtf service vip.
+                      type: string
+                  type: object
               serverClusterIP:
                 description: Cluster IP of dtf server.
-                type: string
-              serverIP:
-                description: VIP of dtf server.
                 type: string
               managerClusterIPv6:
                 description: Cluster IPv6 of dtf manager.
                 type: string
-              managerIPv6:
-                description: VIPv6 of dtf manager.
-                type: string
               serverClusterIPv6:
                 description: Cluster IPv6 of dtf server.
-                type: string
-              serverIPv6:
-                description: VIPv6 of dtf server.
                 type: string
               status:
                 description: Status reflects the overall status of the dtf instance.
