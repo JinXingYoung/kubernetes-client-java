@@ -1170,6 +1170,7 @@ spec:
                     host:
                       description: Headless host of dtf manager endpoint.
                       type: string
+                  type: object
               serverEndpoints:
                 description: Endpoints of dtf server.
                 type: array
@@ -1182,6 +1183,7 @@ spec:
                     host:
                       description: Headless host of dtf server endpoint.
                       type: string
+                  type: object
               status:
                 description: Status reflects the overall status of the dtf instance.
                 type: string
