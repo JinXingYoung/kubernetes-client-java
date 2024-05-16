@@ -1054,15 +1054,13 @@ spec:
                   type: object
                 type: array
               runtimeUser:
-                description: Server describes dtf server component. Version, resources,
-                  replicas are defined here.
+                description: runtime user.
                 properties:
                   uid:
-                    description: DBInitImage is image for database init.
+                    description: user id.
                     type: integer
                   gid:
-                    description: Image is image to use for the component, it reflects
-                      version of the component.
+                    description: group id.
                     type: integer
                 type: object
             type: object
@@ -1160,6 +1158,30 @@ spec:
                       description: zone of dtf service vip.
                       type: string
                   type: object
+              managerEndpoints:
+                description: Endpoints of dtf manager.
+                type: array
+                items:
+                  description: Endpoint of dtf manager.
+                  properties:
+                    ip:
+                      description: IP of dtf manager endpoint.
+                      type: string
+                    host:
+                      description: Headless host of dtf manager endpoint.
+                      type: string
+              serverEndpoints:
+                description: Endpoints of dtf server.
+                type: array
+                items:
+                  description: Endpoint of dtf server.
+                  properties:
+                    ip:
+                      description: IP of dtf server endpoint.
+                      type: string
+                    host:
+                      description: Headless host of dtf server endpoint.
+                      type: string
               status:
                 description: Status reflects the overall status of the dtf instance.
                 type: string
